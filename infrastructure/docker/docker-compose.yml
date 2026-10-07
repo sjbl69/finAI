@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: finai-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: finai
+      POSTGRES_USER: finai
+      POSTGRES_PASSWORD: finai_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - finai_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U finai -d finai"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  finai_postgres_data:
